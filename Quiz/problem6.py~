@@ -1,0 +1,8 @@
+def helpLaceStrings(s1, s2, out):
+        if s1 == '':
+            #PLACE A LINE OF CODE HERE
+        if s2 == '':
+            #PLACE A LINE OF CODE HERE
+        else:
+            #PLACE A LINE OF CODE HERE
+    return helpLaceStrings(s1, s2, '')
