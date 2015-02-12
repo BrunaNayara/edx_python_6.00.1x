@@ -117,7 +117,7 @@ def dealHand(n):
     Returns a random hand containing n lowercase letters.
     At least n/3 the letters in the hand should be VOWELS.
 
-    Hands are represented as dictionaries. The keys are
+    Hands are represented asdictionaries. The keys are
     letters and the values are the number of times the
     particular letter is repeated in that hand.
 
@@ -156,8 +156,10 @@ def updateHand(hand, word):
     hand: dictionary (string -> int)    
     returns: dictionary (string -> int)
     """
-    # TO DO ... <-- Remove this comment when you code this function
-
+    new_hand = hand.copy()
+    for letter in word:
+       new_hand[letter] = new_hand[letter] - 1
+    return new_hand
 
 
 #
@@ -174,8 +176,20 @@ def isValidWord(word, hand, wordList):
     hand: dictionary (string -> int)
     wordList: list of lowercase strings
     """
-    # TO DO ... <-- Remove this comment when you code this function
 
+    hand_freq = hand.copy()
+    if word in wordList:
+        for letter in word:
+            if not (letter in hand_freq.keys()):
+                return False
+            if hand_freq[letter] > 0:
+                hand_freq[letter] -= 1
+            else:
+                return False
+    else:
+        return False
+
+    return True
 
 #
 # Problem #4: Playing a hand
@@ -188,8 +202,12 @@ def calculateHandlen(hand):
     hand: dictionary (string-> int)
     returns: integer
     """
-    # TO DO... <-- Remove this comment when you code this function
 
+    hand_len = 0
+    for key in hand:
+        hand_len += hand[key]
+
+    return hand_len
 
 
 def playHand(hand, wordList, n):
@@ -216,33 +234,40 @@ def playHand(hand, wordList, n):
     """
     # BEGIN PSEUDOCODE <-- Remove this comment when you code this function; do your coding within the pseudocode (leaving those comments in-place!)
     # Keep track of the total score
-    
+    total_score = 0
+
     # As long as there are still letters left in the hand:
-    
+    while calculateHandlen(hand) > 0:
         # Display the hand
-        
+        print 'Current Hand: ',
+        displayHand(hand)
         # Ask user for input
-        
+        choice = raw_input('Enter word, or a "." to indicate that you are finished: ')
         # If the input is a single period:
-        
+        if choice == '.':
             # End the game (break out of the loop)
-
-            
+            print 'Goodbye!', 
+            break
         # Otherwise (the input is not a single period):
-        
+        else:
             # If the word is not valid:
-            
+            if not isValidWord(choice, hand, wordList):
                 # Reject invalid word (print a message followed by a blank line)
-
+                print 'Invalid word, please try again.'
+                print
             # Otherwise (the word is valid):
-
+            else:
                 # Tell the user how many points the word earned, and the updated total score, in one line followed by a blank line
-                
-                # Update the hand 
-                
-
+                choice_score = getWordScore(choice, n)
+                total_score += choice_score
+                print '"', choice, '" earned', choice_score ,'points. Total: ', total_score  ,'points'
+                print 
+                # Update the hand
+                hand = updateHand(hand, choice)
+    else:
+        print 'Run out of letters.', 
     # Game is over (user entered a '.' or ran out of letters), so tell user the total score
-
+    print 'Total score: ', total_score
 
 #
 # Problem #5: Playing a game
@@ -260,9 +285,31 @@ def playGame(wordList):
  
     2) When done playing the hand, repeat from step 1    
     """
-    # TO DO ... <-- Remove this comment when you code this function
-    print "playGame not yet implemented." # <-- Remove this line when you code the function
-   
+    game_choice = ""
+    hand = {}
+
+
+    while game_choice!="e":
+        game_choice = raw_input('Enter n to deal a new hand, r to replay the last hand, or e to end game: ')
+
+        if game_choice == "n":
+            hand = dealHand(HAND_SIZE)
+            playHand(hand, wordList, HAND_SIZE)
+            print
+
+        elif game_choice == 'r':
+            if hand =={}:
+                print 'You have not played a hand yet. Please play a new hand first!'
+                print
+            else:
+                playHand(hand, wordList, HAND_SIZE)
+                print
+
+        elif game_choice == "e":
+            break
+
+        else:
+            print 'Invalid command.'
 
 
 
