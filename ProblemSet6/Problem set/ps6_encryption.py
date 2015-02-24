@@ -127,7 +127,17 @@ def applyCoder(text, coder):
     returns: text after mapping coder chars to original text
     """
     ### TODO.
-    return "Not yet implemented." # Remove this comment when you code the function
+
+    new_text = ""
+    for letter in text:
+        if letter in coder.keys():
+            new_text = new_text + coder[letter]
+        else:
+            new_text = new_text + letter
+
+    return new_text
+
+
 
 def applyShift(text, shift):
     """
