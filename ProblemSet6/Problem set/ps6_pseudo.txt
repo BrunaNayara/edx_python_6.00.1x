@@ -1,3 +1,21 @@
+def findBestShift(wordList, text):
+
+        best_valid_words = 0
+        best_shift = 0
+
+
+        for shift in text_range(0,27):
+                shift_valid_words = 0
+                words = applyShift(text, shift).split(' ')
+                for word in words:
+                        if isWord(wordList, word):
+                                shift_valid_words +=1
+                        if shift_valid_words> best_valid_words:
+                                best_shift = shift
+                                best_valid_words = shift_valid_words
+        return best_shift
+
+
 =========================
 Problem 2: findBestShifts
 =========================
