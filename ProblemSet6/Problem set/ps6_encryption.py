@@ -99,7 +99,6 @@ def buildCoder(shift):
     shift: 0 <= int < 26
     returns: dict
     """
-    ### TODO.
     cipher_dict = {}
 
     low = string.ascii_lowercase
@@ -126,7 +125,6 @@ def applyCoder(text, coder):
     coder: dict with mappings of characters to shifted characters
     returns: text after mapping coder chars to original text
     """
-    ### TODO.
 
     new_text = ""
     for letter in text:
@@ -150,7 +148,6 @@ def applyShift(text, shift):
     shift: amount to shift the text (0 <= int < 26)
     returns: text after being shifted by specified amount.
     """
-    ### TODO.
 
     return applyCoder(text, buildCoder(shift))
 
@@ -166,8 +163,22 @@ def findBestShift(wordList, text):
     text: string
     returns: 0 <= int < 26
     """
-    ### TODO
-    return "Not yet implemented." # Remove this comment when you code the function
+    best_valid_words = 0
+    best_shift = 0
+
+
+    for shift in text_range(0,27):
+            shift_valid_words = 0
+            words = applyShift(text, shift).split(' ')
+            for word in words:
+                    if isWord(wordList, word):
+                            shift_valid_words +=1
+                    if shift_valid_words> best_valid_words:
+                            best_shift = shift
+                            best_valid_words = shift_valid_words
+    return best_shift
+
+
 
 def decryptStory():
     """
@@ -178,8 +189,12 @@ def decryptStory():
 
     returns: string - story in plain text
     """
-    ### TODO.
-    return "Not yet implemented." # Remove this comment when you code the function
+
+    wordList = loadWords()
+    story = getStoryString()
+
+    return  applyShift(tory, findBestShift(wordList, story))
+
 
 #
 # Build data structures used for entire session and run encryption
