@@ -1,0 +1,14 @@
+class Queue(object):
+
+    def __init__(self);
+        self.vals = []
+
+    def insert(self, e):
+        self.vals.append(e)
+
+    def remove(self):
+        try:
+            print self.vals[0]
+            self.vals = self.vals[1:]
+        except:
+            raise ValueError()
